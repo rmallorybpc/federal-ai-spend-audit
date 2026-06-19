@@ -21,7 +21,17 @@ AWARD_TYPE_CODES = ["A", "B", "C", "D"]
 # Server-side keyword pre-filter, used ONLY to keep the download small.
 # It is NOT the definition. The authoritative rule is the explicit, word-boundary
 # classifier in classify.py, applied to each award description after download.
-API_KEYWORD_PREFILTER = ["artificial intelligence", "machine learning"]
+API_KEYWORD_PREFILTER = [
+    "artificial intelligence",
+    "machine learning",
+    "deep learning",
+    "neural network",
+    "natural language processing",
+    "computer vision",
+    "large language model",
+    "foundation model",
+    "generative ai",
+]
 
 # How many pages of 100 to pull before stopping (raise for a full run).
 MAX_PAGES = 50
