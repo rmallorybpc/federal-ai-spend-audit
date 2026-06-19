@@ -1,0 +1,48 @@
+agency,in_keyword_awards,in_contracted_inventory
+AGENCY FOR INTERNATIONAL,True,False
+COMMODITY FUTURES TRADIN,True,False
+DEPARTMENT OF LABOR,True,False
+DHS,True,True
+DISTRICT OF COLUMBIA COU,True,False
+DOC,True,False
+DOD,True,False
+DOE,True,True
+DOI,True,True
+DOJ,True,True
+DOL,False,True
+DOT,True,True
+EAC,False,True
+ED,True,False
+ENVIRONMENTAL PROTECTION,True,False
+EPA,False,True
+EXECUTIVE OFFICE OF THE ,True,False
+FCC,False,True
+FDIC,False,True
+FERC,False,True
+FHFA,False,True
+FRB,False,True
+FTC,False,True
+GENERAL SERVICES ADMINIS,True,False
+GOVERNMENT ACCOUNTABILIT,True,False
+HHS,True,True
+HUD,False,True
+INSTITUTE OF MUSEUM AND ,True,False
+NARA,False,True
+NASA,True,True
+NATIONAL ARCHIVES AND RE,True,False
+NATIONAL SCIENCE FOUNDAT,True,False
+NIGC,False,True
+NRC,False,True
+NTSB,False,True
+NUCLEAR REGULATORY COMMI,True,False
+OFFICE OF PERSONNEL MANA,True,False
+OSC,False,True
+OSHRC,False,True
+SBA,False,True
+SEC,False,True
+SSA,True,True
+STATE,True,True
+TREAS,True,True
+U.S. AGENCY FOR GLOBAL M,True,False
+USDA,True,True
+VA,True,True
