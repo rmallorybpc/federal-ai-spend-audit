@@ -11,9 +11,13 @@ import re
 import config
 
 # Phrases: case-insensitive, whitespace-flexible, with word boundaries.
-_PHRASE_RES = [
+_TIGHT_PHRASE_RES = [
     re.compile(r"\b" + re.escape(p).replace(r"\ ", r"\s+") + r"\b", re.IGNORECASE)
     for p in config.LEXICON_TIGHT_PHRASES
+]
+_BROAD_PHRASE_RES = [
+    re.compile(r"\b" + re.escape(p).replace(r"\ ", r"\s+") + r"\b", re.IGNORECASE)
+    for p in config.LEXICON_BROAD_PHRASES
 ]
 
 # Acronyms: matched against the ORIGINAL text, case-sensitive, isolated tokens,
@@ -29,12 +33,21 @@ _ACRONYM_RES = [re.compile(r"(?<![A-Za-z0-9])" + re.escape(a) + r"(?![A-Za-z0-9]
 
 def matched_terms(description: str) -> list[str]:
     """Return the list of lexicon terms found in a description (may be empty)."""
+    return matched_terms_with_band(description, include_broad=False)
+
+
+def matched_terms_with_band(description: str, include_broad: bool = False) -> list[str]:
+    """Return lexicon terms found in description; include broad phrases if enabled."""
     if not description:
         return []
     hits = []
-    for rx, term in zip(_PHRASE_RES, config.LEXICON_TIGHT_PHRASES):
+    for rx, term in zip(_TIGHT_PHRASE_RES, config.LEXICON_TIGHT_PHRASES):
         if rx.search(description):
             hits.append(term)
+    if include_broad:
+        for rx, term in zip(_BROAD_PHRASE_RES, config.LEXICON_BROAD_PHRASES):
+            if rx.search(description):
+                hits.append(term)
     for rx, term in zip(_ACRONYM_RES, _acronyms):
         if rx.search(description):
             hits.append(term)
@@ -43,7 +56,12 @@ def matched_terms(description: str) -> list[str]:
 
 def is_ai(description: str) -> bool:
     """True if the award description meets the tight-core AI rule."""
-    return len(matched_terms(description)) > 0
+    return is_ai_with_band(description, include_broad=False)
+
+
+def is_ai_with_band(description: str, include_broad: bool = False) -> bool:
+    """True if the description matches the tight rule (+ optional broad phrases)."""
+    return len(matched_terms_with_band(description, include_broad=include_broad)) > 0
 
 
 if __name__ == "__main__":

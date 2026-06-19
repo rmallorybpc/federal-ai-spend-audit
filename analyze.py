@@ -19,7 +19,7 @@ import requests
 import pandas as pd
 
 import config
-from classify import is_ai, matched_terms
+from classify import matched_terms, matched_terms_with_band
 
 
 # --- load the OMB inventory (download once if absent) ------------------------
@@ -62,11 +62,15 @@ def load_classified_awards() -> pd.DataFrame:
     if desc is None:
         print("No description column found in awards file.", file=sys.stderr)
         sys.exit(1)
-    df["_terms"] = df[desc].apply(matched_terms)
-    df["_is_ai"] = df["_terms"].apply(lambda t: len(t) > 0)
+    df["_terms_tight"] = df[desc].apply(matched_terms)
+    df["_terms_broad"] = df[desc].apply(
+        lambda d: matched_terms_with_band(d, include_broad=True)
+    )
+    df["_is_ai_tight"] = df["_terms_tight"].apply(lambda t: len(t) > 0)
+    df["_is_ai_broad"] = df["_terms_broad"].apply(lambda t: len(t) > 0)
     # flag awards whose ONLY reason for inclusion is the bare "AI" token
-    df["_ai_only"] = df["_terms"].apply(lambda t: t == ["AI"])
-    return df[df["_is_ai"]].copy()
+    df["_ai_only_tight"] = df["_terms_tight"].apply(lambda t: t == ["AI"])
+    return df
 
 
 # --- the comparison ----------------------------------------------------------
@@ -74,10 +78,13 @@ def main() -> int:
     inv = load_inventory()
     inv_contracted = inv[inv["contracting_usage"].isin(config.INVENTORY_CONTRACTED_VALUES)]
 
-    awards = load_classified_awards()
-    a_agency_col = find_col(awards, ["Awarding Agency", "awarding_agency_name"])
-    a_recip_col = find_col(awards, ["Recipient Name", "recipient_name"])
-    awards["_abbrev"] = awards[a_agency_col].apply(normalize_agency)
+    awards_all = load_classified_awards()
+    a_agency_col = find_col(awards_all, ["Awarding Agency", "awarding_agency_name"])
+    a_recip_col = find_col(awards_all, ["Recipient Name", "recipient_name"])
+    awards_all["_abbrev"] = awards_all[a_agency_col].apply(normalize_agency)
+
+    awards = awards_all[awards_all["_is_ai_tight"]].copy()
+    awards_broad = awards_all[awards_all["_is_ai_broad"]].copy()
 
     award_agencies = set(awards["_abbrev"])
     inv_agencies = set(inv_contracted["agency"])
@@ -87,7 +94,9 @@ def main() -> int:
     only_awd = award_agencies - inv_agencies
 
     n_awards = len(awards)
-    n_ai_only = int(awards["_ai_only"].sum())
+    n_awards_broad = len(awards_broad)
+    n_broad_only = int((awards_all["_is_ai_broad"] & ~awards_all["_is_ai_tight"]).sum())
+    n_ai_only = int(awards["_ai_only_tight"].sum())
     dod_awards = int((awards["_abbrev"] == "DOD").sum())
     dod_inv = int((inv_contracted["agency"] == "DOD").sum())
 
@@ -115,6 +124,10 @@ def main() -> int:
     out("FEDERAL AI MEASUREMENT AUDIT — coverage divergence")
     out("=" * 64)
     out(f"Keyword-classified contract awards (tight rule): {n_awards}")
+    out(f"Sensitivity band (tight + broad phrases): {n_awards_broad} "
+        f"(delta +{n_awards_broad - n_awards})")
+    out(f"  broad-only additions: {n_broad_only} "
+        f"from LEXICON_BROAD_PHRASES ({len(config.LEXICON_BROAD_PHRASES)} terms)")
     out(f"  of which matched on bare 'AI' only: {n_ai_only} "
         f"({100*n_ai_only/n_awards:.0f}% precision risk)" if n_awards else "  (no awards)")
     out(f"Contracted AI use cases in OMB inventory: {len(inv_contracted)}")

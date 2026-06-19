@@ -23,8 +23,9 @@ noisiest term, so the pipeline reports what share of hits rely on it alone, and
 `INCLUDE_BARE_AI` lets you turn it off to see how much the answer moves.
 
 This is the Tier 1 ("tight") rule. A broader lexicon (automation, analytics,
-algorithm, autonomous, RPA) is left as a documented, empty switch
-(`LEXICON_BROAD_PHRASES`) — the sensitivity band, not the headline.
+algorithm, autonomous, RPA) is configured through
+`LEXICON_BROAD_PHRASES` and reported as a sensitivity band alongside the tight
+headline, not as a replacement for it.
 
 ## The cross-check
 
