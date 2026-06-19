@@ -2,8 +2,8 @@
 FEDERAL AI MEASUREMENT AUDIT — coverage divergence
 ================================================================
 Keyword-classified contract awards (tight rule): 1600
-Sensitivity band (tight + broad phrases): 1600 (delta +0)
-  broad-only additions: 0 from LEXICON_BROAD_PHRASES (0 terms)
+Sensitivity band (tight + broad phrases): 1603 (delta +3)
+  broad-only additions: 3 from LEXICON_BROAD_PHRASES (16 terms)
   of which matched on bare 'AI' only: 1 (0% precision risk)
 Contracted AI use cases in OMB inventory: 1023
 

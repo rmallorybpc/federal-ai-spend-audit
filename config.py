@@ -51,7 +51,24 @@ INCLUDE_BARE_AI = True  # flip to False to see how much the headline depends on 
 # Placeholder for the sensitivity band. Left empty on purpose: the "broad"
 # lexicon (automation, analytics, algorithm, autonomous, RPA, ...) is a future
 # switch, not the headline. Keeping it visible documents the choice not made.
-LEXICON_BROAD_PHRASES: list[str] = []
+LEXICON_BROAD_PHRASES: list[str] = [
+    "predictive analytics",
+    "advanced analytics",
+    "data science",
+    "intelligent automation",
+    "robotic process automation",
+    "rpa",
+    "cognitive computing",
+    "autonomous",
+    "anomaly detection",
+    "recommendation system",
+    "chatbot",
+    "speech recognition",
+    "facial recognition",
+    "optical character recognition",
+    "automation",
+    "algorithm",
+]
 
 # --- OMB 2025 AI Use Case Inventory (the cross-check) ------------------------
 INVENTORY_RAW_URL = (
