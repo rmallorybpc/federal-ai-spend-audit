@@ -60,3 +60,11 @@ plus `requests` and `pandas` (see `requirements.txt`).
 - This runs in plain Python from the repo root:
   `python fetch_usaspending.py` then `python analyze.py`. Keep that simplicity.
 
+## Deploy infrastructure (do not restructure)
+- `site/index.html` is the published page (GitHub Pages). It is self-contained on
+  purpose: the numbers are baked in, because `outputs/` is gitignored and not
+  served. Do not wire it to read live files, and do not add a framework or a
+  build step. Update its numbers only from a fresh `analyze.py` run.
+- `.github/workflows/deploy-pages.yml` deploys `site/` to Pages via GitHub
+  Actions. Do not change its triggers, permissions, or action versions unless a
+  run fails.
