@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How Washington buys AI — a measurement audit</title>
+<meta name="description" content="An open audit of how federal AI spending is counted. The number depends on the definition, and the standard keyword method misses most of the government.">
+<style>
+  :root{
+    --paper:#f3f3ee;
+    --ink:#17150f;
+    --muted:#6c6c62;
+    --rule:#d6d6cc;
+    --add:#2f6b4a;
+    --del:#9b2d20;
+    --redact:#17150f;
+    --mono:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono","Roboto Mono",Menlo,Consolas,monospace;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--sans);font-size:18px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  a{color:var(--ink);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+  a:focus-visible,summary:focus-visible{outline:2px solid var(--del);outline-offset:3px}
+
+  /* eyebrow + masthead */
+  header{padding:64px 0 8px;border-bottom:1px solid var(--rule)}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--muted);margin:0 0 22px}
+  h1{font-family:var(--mono);font-weight:700;font-size:clamp(30px,7vw,52px);
+    line-height:1.05;letter-spacing:-.01em;margin:0 0 14px}
+  .standfirst{font-size:clamp(18px,2.4vw,22px);margin:0 0 40px;max-width:34ch}
+  .standfirst b{font-weight:600}
+
+  /* hero diff */
+  .hero{margin:34px 0 56px}
+  .hero .cap{font-family:var(--mono);font-size:12.5px;letter-spacing:.04em;
+    text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+  .diff{font-family:var(--mono);font-size:14px;line-height:1.7;
+    background:#fff;border:1px solid var(--rule);border-radius:4px;
+    padding:18px 20px;overflow-x:auto;white-space:pre;tab-size:2}
+  .diff .del{color:var(--del)}
+  .diff .add{color:var(--add)}
+  .tally{font-family:var(--mono);margin-top:18px;font-size:clamp(20px,4.4vw,30px);
+    display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 16px}
+  .tally .lab{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .tally .arrow{color:var(--muted)}
+  .tally .jump{color:var(--del);font-weight:700}
+
+  /* sections */
+  section{padding:42px 0;border-top:1px solid var(--rule)}
+  h2{font-family:var(--mono);font-weight:700;font-size:clamp(20px,3.6vw,26px);
+    letter-spacing:-.005em;margin:0 0 18px;line-height:1.15}
+  p{margin:0 0 18px}
+  .lede{font-size:20px}
+
+  /* two-method ledger */
+  .ledger{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);
+    border:1px solid var(--rule);border-radius:4px;overflow:hidden;margin:8px 0 16px}
+  .col{background:#fff;padding:18px 18px 20px}
+  .col h3{font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;
+    text-transform:uppercase;margin:0 0 4px}
+  .col .src{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin:0 0 14px}
+  ul.names{list-style:none;margin:0 0 14px;padding:0;font-family:var(--mono);font-size:13px;line-height:1.95}
+  ul.names li{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dotted var(--rule);padding:1px 0}
+  ul.names li span:last-child{color:var(--muted)}
+  .dod{font-family:var(--mono);font-size:12.5px;line-height:1.5;margin-top:2px}
+  .dod .k{color:var(--muted)}
+  .redact{display:inline-block;background:var(--redact);color:var(--redact);
+    border-radius:2px;padding:0 8px;user-select:none}
+  .redact.lbl{color:#fff;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+  .ledger-note{font-size:16px;color:var(--ink);margin:0}
+
+  /* invisible agencies */
+  .agencies{font-family:var(--mono);font-size:13px;line-height:2;color:var(--muted);
+    margin:6px 0 0}
+  .agencies span{text-decoration:line-through;text-decoration-color:var(--del);
+    text-decoration-thickness:1px;margin-right:14px;white-space:nowrap;display:inline-block}
+
+  /* rule list */
+  .rule-list{font-family:var(--mono);font-size:13.5px;line-height:1.9;
+    background:#fff;border:1px solid var(--rule);border-radius:4px;padding:16px 18px}
+  .limits{list-style:none;margin:0;padding:0}
+  .limits li{padding:0 0 16px 0}
+  .limits li:last-child{padding-bottom:0}
+  .limits b{font-family:var(--mono);font-size:13px;letter-spacing:.02em;display:block;margin-bottom:3px}
+
+  /* footer */
+  footer{padding:44px 0 80px;border-top:2px solid var(--ink)}
+  .repro{font-family:var(--mono);font-size:13px;background:#fff;border:1px solid var(--rule);
+    border-radius:4px;padding:14px 16px;white-space:pre;overflow-x:auto;margin:0 0 22px}
+  .meta{font-family:var(--mono);font-size:12.5px;color:var(--muted);line-height:1.8}
+  .meta a{color:var(--muted)}
+  .stamp{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--del);border:1.5px solid var(--del);border-radius:3px;padding:3px 9px;display:inline-block;margin-bottom:18px}
+
+  @media (max-width:560px){
+    body{font-size:17px}
+    .ledger{grid-template-columns:1fr}
+    header{padding-top:44px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">An open audit · USAspending and the OMB AI inventory</p>
+    <h1>How Washington buys AI</h1>
+    <p class="standfirst">There is no single number for federal AI spending. <b>The number is a choice.</b></p>
+  </header>
+
+  <div class="hero">
+    <p class="cap">Same data. Same eleven years. One change: the word list.</p>
+    <div class="diff"><span class="del">- terms = ["artificial intelligence", "machine learning"]</span>
+<span class="add">+ terms = ["artificial intelligence", "machine learning",</span>
+<span class="add">+          "deep learning", "neural network",</span>
+<span class="add">+          "natural language processing", "computer vision",</span>
+<span class="add">+          "large language model", "foundation model",</span>
+<span class="add">+          "generative AI"]</span></div>
+    <div class="tally">
+      <span class="lab">Awards counted</span>
+      <span>1,600</span><span class="arrow">→</span><span>1,979</span>
+      <span class="jump">+24%</span>
+    </div>
+  </div>
+
+  <section>
+    <h2>The count depends on the words you pick</h2>
+    <p class="lede">I ran the same data twice. The only change was the list of AI terms.</p>
+    <p>Two phrases returned 1,600 contract awards. Nine phrases returned 1,979. Nothing about federal AI changed between those runs. Only the definition did.</p>
+    <p>Every headline figure you have read rests on a word list like this one. Most do not show you the list.</p>
+  </section>
+
+  <section>
+    <h2>Two methods find two different governments</h2>
+    <p>The keyword method and the government's own use-case inventory barely overlap. Each one sees a different half of federal AI.</p>
+    <div class="ledger">
+      <div class="col">
+        <h3>Keyword method</h3>
+        <p class="src">USAspending contracts</p>
+        <ul class="names">
+          <li><span>MathWorks</span><span>32</span></li>
+          <li><span>BlueHalo Labs</span><span>19</span></li>
+          <li><span>Booz Allen Hamilton</span><span>16</span></li>
+          <li><span>MITRE</span><span>15</span></li>
+          <li><span>Prometheus Computing</span><span>15</span></li>
+        </ul>
+        <p class="dod"><span class="k">Defense Department:</span> 64% by count, about 99% by value.</p>
+      </div>
+      <div class="col">
+        <h3>Use-case inventory</h3>
+        <p class="src">OMB 2025, contracted subset</p>
+        <ul class="names">
+          <li><span>Microsoft</span><span>84</span></li>
+          <li><span>Deloitte</span><span>18</span></li>
+          <li><span>Google</span><span>17</span></li>
+          <li><span>Palantir</span><span>14</span></li>
+          <li><span>OpenAI</span><span>9</span></li>
+        </ul>
+        <p class="dod"><span class="k">Defense Department:</span> <span class="redact lbl">withheld</span> 0% reported.</p>
+      </div>
+    </div>
+    <p class="ledger-note">Put the lists side by side. Almost no vendor appears on both. The keyword method shows a defense research world. The inventory shows a civilian one. The method you pick decides which you see.</p>
+  </section>
+
+  <section>
+    <h2>Eighteen agencies the keyword method cannot see</h2>
+    <p>These agencies report AI they bought by contract. None of them show up in the keyword results.</p>
+    <p class="agencies">
+      <span>DOL</span><span>EAC</span><span>EPA</span><span>FCC</span><span>FDIC</span><span>FERC</span><span>FHFA</span><span>FRB</span><span>FTC</span><span>HUD</span><span>NARA</span><span>NIGC</span><span>NRC</span><span>NTSB</span><span>OSC</span><span>OSHRC</span><span>SBA</span><span>SEC</span>
+    </p>
+  </section>
+
+  <section>
+    <h2>The top AI vendor is a measurement artifact</h2>
+    <p>MathWorks is the largest AI contractor by the keyword method. MathWorks makes MATLAB.</p>
+    <p>Those awards are very likely tool and license purchases that match because "machine learning" sits in the product description. A tool license is not an AI program. The keyword method cannot tell the difference. This is what a loose definition looks like in practice.</p>
+  </section>
+
+  <section>
+    <h2>The rule, stated in the open</h2>
+    <p>An award counts as AI if its description contains one of these terms. Word-boundary checks stop "AI" from matching "email," "Hawaii," or a building code like "AI-3."</p>
+    <div class="rule-list">artificial intelligence · machine learning · deep learning · neural network · natural language processing · computer vision · large language model · foundation model · generative AI · AI · NLP · LLM</div>
+    <p style="margin-top:18px">The cross-check uses the OMB inventory, filtered to the use cases agencies acquired by contract. That subset is the fair comparison to contract spend. The inventory holds 3,611 reported use cases across 41 agencies. 1,023 were acquired by contract.</p>
+  </section>
+
+  <section>
+    <h2>What I am not claiming</h2>
+    <p>The limits matter as much as the findings.</p>
+    <ul class="limits">
+      <li><b>Use cases are not dollars.</b>The inventory counts systems, not obligations. This measures a gap in coverage, not a corrected total.</li>
+      <li><b>Both sources are biased, in opposite directions.</b>The keyword method leans toward Defense. The inventory leans civilian, because Defense does not report. Neither is the truth on its own.</li>
+      <li><b>Keyword search reads base award descriptions.</b>AI bought inside task orders and modifications goes unseen. My count runs lower than proprietary datasets, which fits that gap.</li>
+      <li><b>The broad-definition test is partial.</b>A full version needs a pull by industry code, not by keyword. That is the next build, and it is marked unfinished.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <span class="stamp">Open data · Open code</span>
+    <div class="repro">pip install -r requirements.txt
+python fetch_usaspending.py
+python analyze.py</div>
+    <p class="meta">
+      Sources: <a href="https://api.usaspending.gov">USAspending</a> · <a href="https://github.com/ombegov/2025-Federal-Agency-AI-Use-Case-Inventory">OMB 2025 Federal Agency AI Use Case Inventory</a><br>
+      Code and method: <a href="REPO_URL_HERE">github.com/your-handle/federal-ai-spend-audit</a>
+    </p>
+  </footer>
+
+</div>
+</body>
+</html>
