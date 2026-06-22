@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Methods | How Washington buys AI</title>
+<meta name="description" content="Data sources, the rule, the KPIs, and the limits.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tmg.css">
+<style>
+    .fa-navlinks{display:flex;align-items:center;gap:16px;min-width:0}
+    .fa-navlinks a{font-size:13px;font-weight:500;color:var(--tmg-charcoal);text-decoration:none;white-space:nowrap}
+    .fa-navlinks a:hover{color:var(--tmg-sage-hover)}
+    .fa-navlinks a[aria-current="page"]{color:var(--tmg-sage);border-bottom:2px solid var(--tmg-sage);padding-bottom:2px}
+    .fa-wrap{max-width:900px;margin:0 auto}
+    .fa-stack{display:flex;flex-direction:column;gap:var(--tmg-gap)}
+    .fa-prose p{margin:0 0 14px;max-width:70ch}
+    .fa-prose p:last-child{margin-bottom:0}
+    .fa-lede{font-size:18px;line-height:1.6}
+    .fa-claim{font-size:20px;font-weight:500;line-height:1.3;margin:0 0 10px}
+    .fa-diff{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;line-height:1.7;
+      background:var(--tmg-cream);border:var(--tmg-border);border-radius:8px;padding:14px 16px;overflow-x:auto;white-space:pre;margin-top:14px}
+    .fa-diff .del{color:var(--tmg-error)}
+    .fa-diff .add{color:var(--tmg-success)}
+    .fa-strike{font-size:14px;line-height:2.1;margin:4px 0 0}
+    .fa-strike span{text-decoration:line-through;text-decoration-color:var(--tmg-error);text-decoration-thickness:1px;margin-right:14px;white-space:nowrap;display:inline-block}
+    .fa-mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;line-height:1.8;
+      background:var(--tmg-cream);border:var(--tmg-border);border-radius:8px;padding:12px 16px}
+    .fa-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:4px}
+    a.fa-btn{background:var(--tmg-charcoal);color:var(--tmg-white);border-radius:8px;padding:10px 16px;font-size:13px;font-weight:500;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+    a.fa-btn:hover{background:#3D4446}
+    a.fa-btn-ghost{background:transparent;color:var(--tmg-charcoal);border:1px solid rgba(45,52,54,0.20);border-radius:8px;padding:10px 16px;font-size:13px;font-weight:500;text-decoration:none}
+    a.fa-btn-ghost:hover{border-color:var(--tmg-sage);color:var(--tmg-sage-hover)}
+    .fa-note{font-size:13px;color:var(--tmg-text-muted)}
+    @media (max-width:600px){.tmg-nav{overflow-x:auto;gap:12px}.fa-navlinks{gap:12px}}
+    @media (prefers-reduced-motion:reduce){*{transition:none !important}}
+</style>
+</head>
+<body>
+<nav class="tmg-nav" aria-label="Primary">
+  <a class="tmg-logo" href="index.html" aria-label="The Mallory Group home"><span>TM</span><span class="tmg-logo-divider" aria-hidden="true"></span><span>G</span></a>
+  <div class="fa-navlinks">
+      <a href="index.html">Overview</a>
+      <a href="findings.html">Key findings</a>
+      <a href="methods.html" aria-current="page">Methods</a>
+      <a href="audit.html">Audit</a>
+    <div class="tmg-dropdown-wrap">
+      <button class="tmg-dropdown-btn" id="toolBtn" aria-haspopup="true" aria-expanded="false" aria-controls="toolMenu">Tool suite
+        <svg class="tmg-chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="tmg-dropdown-menu" id="toolMenu" role="menu">
+        <a role="menuitem" href="https://rmallorybpc.github.io/pdf-multi-agent-analysis/" target="_blank" rel="noreferrer">PDF Multi-Agent Analysis</a>
+        <a role="menuitem" href="https://rmallorybpc.github.io/housing-market-intel/" target="_blank" rel="noreferrer">Housing Market Intel</a>
+        <a role="menuitem" href="https://rmallorybpc.github.io/real-estate-report/" target="_blank" rel="noreferrer">Real Estate Report</a>
+        <a role="menuitem" href="https://rmallorybpc.github.io/nflanalysis/dashboard/src/" target="_blank" rel="noreferrer">NFL Analysis</a>
+        <a role="menuitem" href="https://rmallorybpc.github.io/recipes/" target="_blank" rel="noreferrer">Recipe Book</a>
+        <a role="menuitem" href="https://rmallorybpc.github.io/nhl-free-agency-research/" target="_blank" rel="noreferrer">NHL Free Agency Research</a>
+        <a role="menuitem" href="https://rmallorybpc.github.io/nhl-play-for-contract/" target="_blank" rel="noreferrer">NHL Play for Contract</a>
+        <a role="menuitem" href="https://rmallorybpc.github.io/nba-research-project/" target="_blank" rel="noreferrer">NBA Supermax Research</a>
+        <a role="menuitem" href="https://content-integrity-audit.pages.dev/" target="_blank" rel="noreferrer">Content Integrity</a>
+        <a role="menuitem" href="https://rmallorybpc.github.io/external-hire-premium/" target="_blank" rel="noreferrer">External Hire Premium</a>
+        <a role="menuitem" href="index.html" aria-current="page">Federal AI Spend Audit</a>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="tmg-page">
+<div class="tmg-container">
+<div class="fa-wrap">
+<header class="tmg-page-header"><p class="tmg-eyebrow">Methods</p>
+  <h1 class="tmg-page-title">Methods</h1>
+  <p class="tmg-page-desc">Where the data comes from, the rule that defines AI, the metrics, and what it can and cannot carry.</p></header>
+<div class="fa-stack">
+  <section class="tmg-card-wide fa-prose" aria-labelledby="m0"><p class="tmg-card-label">Principle</p>
+    <h2 id="m0" class="fa-claim">Open data, open rule, every choice on the page.</h2>
+    <p>Every input is a public record. No licensed database is used. The rule that decides what counts as AI is written in one file, so anyone can read it, change it, and rerun the study.</p></section>
+  <div class="tmg-bento-grid">
+    <section class="tmg-card fa-prose" aria-labelledby="m1"><p class="tmg-card-label">Data sources</p>
+      <h3 id="m1" class="tmg-card-title">Two public feeds</h3>
+      <p>USAspending contract awards, pulled through the public API. The OMB 2025 Federal AI Use Case Inventory.</p></section>
+    <section class="tmg-card fa-prose" aria-labelledby="m2"><p class="tmg-card-label">Sample</p>
+      <h3 id="m2" class="tmg-card-title">2,107 awards, FY2015 to 2025</h3>
+      <p>Contract award types only. Of 2,107 awards, 1,979 met the rule. The inventory holds 3,611 use cases, 1,023 acquired by contract.</p></section>
+  </div>
+  <section class="tmg-card-wide fa-prose" aria-labelledby="m3"><p class="tmg-card-label">The rule</p>
+    <h3 id="m3" class="tmg-card-title">What counts as an AI contract</h3>
+    <p>An award counts as AI if its description contains one of these terms. Word-boundary checks stop AI from matching email, Hawaii, or a building code like AI-3.</p>
+    <div class="fa-mono">artificial intelligence · machine learning · deep learning · neural network · natural language processing · computer vision · large language model · foundation model · generative AI · AI · NLP · LLM</div></section>
+  <section class="tmg-card-wide fa-prose" aria-labelledby="mk"><p class="tmg-card-label">KPIs</p>
+    <h3 id="mk" class="tmg-card-title">The metrics, defined</h3>
+    <table class="tmg-table"><thead><tr><th scope="col">KPI</th><th scope="col">Definition</th></tr></thead>
+    <tbody>
+    <tr><td>AI awards</td><td>Contract awards whose description meets the AI rule</td></tr>
+    <tr><td>AI obligations</td><td>Sum of award amounts meeting the rule, an obligation proxy</td></tr>
+    <tr><td>DoD share</td><td>Defense share of awards and of obligations</td></tr>
+    <tr><td>Definitional share</td><td>(full minus core) over full, the share of the count owed to a wider lexicon</td></tr>
+    <tr><td>AI share of IT spend</td><td>AI obligations over IT-NAICS obligations, needs a denominator pull, marked open</td></tr>
+    </tbody></table></section>
+  <div class="tmg-bento-grid">
+    <section class="tmg-card fa-prose" aria-labelledby="m4"><p class="tmg-card-label">Cross-check</p>
+      <h3 id="m4" class="tmg-card-title">Matched to the inventory</h3>
+      <p>Keyword awards are compared with the inventory at the agency level, using the contracted subset.</p></section>
+    <section class="tmg-card fa-prose" aria-labelledby="m5"><p class="tmg-card-label">Reproducibility</p>
+      <h3 id="m5" class="tmg-card-title">Three commands</h3>
+      <div class="fa-mono">pip install -r requirements.txt
+python fetch_usaspending.py
+python analyze.py</div></section>
+  </div>
+  <section class="tmg-card-wide fa-prose" aria-labelledby="m6"><p class="tmg-card-label">Coverage and limits</p>
+    <h3 id="m6" class="tmg-card-title">What the data cannot carry</h3>
+    <p>Use cases are not dollars, so the cross-check measures coverage, not a corrected total. Award Amount is an obligation proxy, not a final outlay. Both sources are biased in opposite directions: the keyword method toward Defense, the inventory toward civilian agencies, because Defense does not report. Keyword search reads base award descriptions, so AI bought inside task orders goes unseen. The broad-definition test is partial and needs a pull by industry code.</p></section>
+</div>
+</div>
+</div>
+</div>
+<footer class="tmg-footer">
+  Federal AI spend audit by The Mallory Group. Last updated June 2026.
+  <a href="REPO_URL_HERE" target="_blank" rel="noreferrer" class="tmg-text-accent">View the source on GitHub &rarr;</a>
+</footer>
+<script>
+  (function(){var b=document.getElementById('toolBtn'),m=document.getElementById('toolMenu');if(!b||!m)return;
+   function c(){m.classList.remove('open');b.classList.remove('open');b.setAttribute('aria-expanded','false');}
+   b.addEventListener('click',function(e){e.stopPropagation();var o=m.classList.toggle('open');b.classList.toggle('open',o);b.setAttribute('aria-expanded',o?'true':'false');});
+   m.addEventListener('click',function(e){e.stopPropagation();});document.addEventListener('click',c);
+   document.addEventListener('keydown',function(e){if(e.key==='Escape'){c();b.focus();}});})();
+</script>
+</body>
+</html>
