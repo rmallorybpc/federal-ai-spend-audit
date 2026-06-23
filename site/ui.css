@@ -17,16 +17,15 @@
   top: 12px;
 }
 
-.fa-navlinks {
-  display: flex;
-  align-items: center;
+.tmg-nav {
   gap: 12px;
-  min-width: 0;
 }
 
 .tmg-page-links {
   display: flex;
   gap: 4px;
+  margin-left: 12px;
+  min-width: 0;
 }
 
 .tmg-page-links a {
@@ -203,15 +202,18 @@ a.fa-btn-ghost:hover {
     flex-wrap: wrap;
   }
 
-  .fa-navlinks {
+  .tmg-page-links {
     width: 100%;
-    justify-content: space-between;
+    order: 3;
+    justify-content: flex-start;
+    margin-left: 0;
     gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 2px;
   }
 
-  .tmg-page-links {
-    flex-wrap: wrap;
-    gap: 4px;
+  .tmg-dropdown-wrap {
+    margin-left: auto;
   }
 }
 

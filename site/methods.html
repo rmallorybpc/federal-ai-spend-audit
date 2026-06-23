@@ -5,44 +5,61 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Methods | How Washington buys AI</title>
 <meta name="description" content="Data sources, the rule, the KPIs, and the limits.">
+<style>
+:root {
+  --tmg-cream: #FDFCF0;
+  --tmg-charcoal: #2D3436;
+  --tmg-sage: #84A98C;
+  --tmg-sage-hover: #6B8F74;
+  --tmg-white: #FFFFFF;
+  --tmg-bg: var(--tmg-cream);
+  --tmg-text: var(--tmg-charcoal);
+  --tmg-accent: var(--tmg-sage);
+  --tmg-surface: var(--tmg-white);
+  --tmg-success: #2E8540;
+  --tmg-warning: #C47F00;
+  --tmg-error: #B00020;
+  --tmg-border: 1px solid rgba(45, 52, 54, 0.12);
+  --tmg-border-hover: 1px solid rgba(132, 169, 140, 0.50);
+  --tmg-bento-radius: 16px;
+  --tmg-nav-radius: 8px;
+  --tmg-btn-radius: 8px;
+  --tmg-gap: 24px;
+  --tmg-gap-sm: 12px;
+  --tmg-shadow-sm: 0 1px 3px rgba(45, 52, 54, 0.08);
+  --tmg-shadow-md: 0 2px 8px rgba(45, 52, 54, 0.10);
+}
+</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://rmallorybpc.github.io/tmg-brand-guide/dist/tmg.css">
-<link rel="stylesheet" href="ui.css?v=20260623b">
+<link rel="stylesheet" href="ui.css?v=20260623c">
 </head>
 <body>
 <a class="fa-skip-link" href="#main-content">Skip to content</a>
 <nav class="tmg-nav" aria-label="Primary">
   <a class="tmg-logo" href="index.html" aria-label="The Mallory Group home"><span>TM</span><span class="tmg-logo-divider" aria-hidden="true"></span><span>G</span></a>
-  <div class="fa-navlinks">
-    <div class="tmg-page-links" aria-label="Site pages">
-      <a href="index.html">Overview</a>
-      <a href="findings.html">Key findings</a>
-      <a href="methods.html" aria-current="page">Methods</a>
-      <a href="audit.html">Audit</a>
-    </div>
-    <div class="tmg-dropdown-wrap">
-      <button class="tmg-dropdown-btn" id="tmgDdBtn" aria-haspopup="true" aria-expanded="false" aria-controls="tmgDdMenu">TMG Tool Suite
-        <svg class="tmg-chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <div class="tmg-dropdown-menu" id="tmgDdMenu" role="menu">
-        <a role="menuitem" href="https://rmallorybpc.github.io/pdf-multi-agent-analysis/" target="_blank" rel="noreferrer">PDF Multi-Agent Analysis</a>
-        <a role="menuitem" href="https://rmallorybpc.github.io/housing-market-intel/" target="_blank" rel="noreferrer">Housing Market Intel</a>
-        <a role="menuitem" href="https://rmallorybpc.github.io/real-estate-report/" target="_blank" rel="noreferrer">Real Estate Report</a>
-        <a role="menuitem" href="https://rmallorybpc.github.io/nflanalysis/dashboard/src/" target="_blank" rel="noreferrer">NFL Analysis</a>
-        <a role="menuitem" href="https://rmallorybpc.github.io/recipes/" target="_blank" rel="noreferrer">Recipe Book</a>
-        <a role="menuitem" href="https://rmallorybpc.github.io/nhl-free-agency-research/" target="_blank" rel="noreferrer">NHL Free Agency Research</a>
-        <a role="menuitem" href="https://rmallorybpc.github.io/nhl-play-for-contract/" target="_blank" rel="noreferrer">NHL Play for Contract</a>
-        <a role="menuitem" href="https://rmallorybpc.github.io/nba-research-project/" target="_blank" rel="noreferrer">NBA Supermax Research</a>
-        <a role="menuitem" href="https://content-integrity-audit.pages.dev/" target="_blank" rel="noreferrer">Content Integrity</a>
-        <a role="menuitem" href="https://rmallorybpc.github.io/external-hire-premium/" target="_blank" rel="noreferrer">External Hire Premium</a>
-        <a role="menuitem" href="index.html" aria-current="page">Federal AI Spend Audit</a>
-      </div>
+  <div class="tmg-page-links" aria-label="Site pages">
+    <a href="index.html">Overview</a>
+    <a href="findings.html">Key findings</a>
+    <a href="methods.html" aria-current="page">Methods</a>
+    <a href="audit.html">Audit</a>
+  </div>
+  <div class="tmg-dropdown-wrap">
+    <button class="tmg-dropdown-btn" id="tmgDdBtn" aria-haspopup="true" aria-expanded="false" aria-controls="tmgDdMenu">TMG Tool Suite
+      <svg class="tmg-chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="tmg-dropdown-menu" id="tmgDdMenu" role="menu">
+      <a role="menuitem" href="https://rmallorybpc.github.io/pdf-multi-agent-analysis/" target="_blank" rel="noreferrer">PDF Multi-Agent Analysis</a>
+      <a role="menuitem" href="https://rmallorybpc.github.io/housing-market-intel/" target="_blank" rel="noreferrer">Housing Market Intel</a>
+      <a role="menuitem" href="https://rmallorybpc.github.io/real-estate-report/" target="_blank" rel="noreferrer">Real Estate Report</a>
+      <a role="menuitem" href="https://rmallorybpc.github.io/nflanalysis/dashboard/src/" target="_blank" rel="noreferrer">NFL Analysis</a>
+      <a role="menuitem" href="https://rmallorybpc.github.io/recipes/" target="_blank" rel="noreferrer">Recipe Book</a>
     </div>
   </div>
 </nav>
-<main id="main-content" class="tmg-page" tabindex="-1">
-<div class="tmg-container">
+<main id="main-content" tabindex="-1">
+<div class="tmg-page tmg-container">
 <div class="fa-wrap">
 <header class="tmg-page-header"><p class="tmg-eyebrow">Methods</p>
   <h1 class="tmg-page-title">Methods</h1>
@@ -94,6 +111,6 @@ python analyze.py</div></section>
   Federal AI spend audit by The Mallory Group. Last updated June 2026.
   <a href="https://github.com/rmallorybpc/federal-ai-spend-audit" target="_blank" rel="noreferrer" class="tmg-text-accent">View the source on GitHub &rarr;</a>
 </footer>
-<script src="ui.js?v=20260623b"></script>
+<script src="ui.js?v=20260623c"></script>
 </body>
 </html>
