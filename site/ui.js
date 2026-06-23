@@ -1,6 +1,6 @@
 (function () {
-  var button = document.getElementById("toolBtn");
-  var menu = document.getElementById("toolMenu");
+  var button = document.getElementById("tmgDdBtn");
+  var menu = document.getElementById("tmgDdMenu");
 
   if (!button || !menu) {
     return;
