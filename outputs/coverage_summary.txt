@@ -1,44 +1,39 @@
 ================================================================
-FEDERAL AI MEASUREMENT AUDIT — coverage divergence
+FEDERAL AI MEASUREMENT AUDIT
 ================================================================
-Keyword-classified contract awards (tight rule): 1979
-Sensitivity band (tight + broad phrases): 1986 (delta +7)
-  broad-only additions: 7 from LEXICON_BROAD_PHRASES (16 terms)
-  of which matched on bare 'AI' only: 4 (0% precision risk)
-Contracted AI use cases in OMB inventory: 1023
 
-Agencies in keyword awards: 30
-Agencies in contracted inventory: 30
-  overlap: 12  |  inventory-only: 18  |  awards-only: 18
-  inventory-only agencies (AI use the keyword method may miss): DOL, EAC, EPA, FCC, FDIC, FERC, FHFA, FRB, FTC, HUD, NARA, NIGC, NRC, NTSB, OSC, OSHRC, SBA, SEC
+KPIs (defined here, computed from the pull):
+  K1 AI awards            = contract awards meeting the AI rule
+  K2 AI obligations       = sum of award amounts meeting the rule (obligation proxy)
+  K3 DoD share            = DoD share of awards / obligations
+  K4 Definitional share   = (full - core) / full, share of count owed to lexicon width
+  K5 AI share of IT spend = AI obligations / IT-NAICS obligations  [needs denominator pull]
 
-The DoD inversion:
-  DoD share of keyword awards: 64.1%
-  DoD share of contracted inventory: 0.0%
+Awards (9-phrase rule)            : 1947
+Awards (2-phrase core, same pull) : 1580
+Definitional share (K4)           : 19%  (367 of 1947 owe to wider lexicon)
+Total AI obligations (K2)         : $2,633.9M
+DoD share by count (K3)           : 64.4%
+DoD share by obligations (K3)     : 69.9%
 
-Top recipients (keyword awards):
-    32  THE MATHWORKS, INC.
-    19  BLUEHALO LABS, LLC
-    16  BOOZ ALLEN HAMILTON INC
-    15  THE MITRE CORPORATION
-    15  PROMETHEUS COMPUTING, LLC
-    13  UNIVERSITY OF MARYLAND, COLLEGE PARK
-    13  TOYON RESEARCH CORPORATION
-    11  CFD RESEARCH CORPORATION
-    11  NOVATEUR RESEARCH SOLUTIONS LLC
-    10  INTELLISENSE SYSTEMS INC
-Top vendors (contracted inventory):
-    84  Microsoft
-    18  Not available
-    18  Deloitte
-    17  Google
-    14  Palantir
-    10  ServiceNow
-    10  Thomson Reuters
-     9  OpenAI
-     9  Contractor teams
-     8  Open Source
+Adoption curve (K1, K2 by fiscal year):
+  FY      awards    oblig $M    DoD $M    civ $M
+  2016        42        16.9       4.1      12.8
+  2017        64       115.2      98.2      16.9
+  2018        99        59.1      40.7      18.4
+  2019       142       210.2      91.1     119.2
+  2020       216       677.8     522.0     155.8
+  2021       226       265.2     114.3     151.0
+  2022       229       237.2     173.0      64.2
+  2023       274       241.3     147.9      93.4
+  2024       325       407.4     304.6     102.8
+  2025       330       403.5     344.8      58.7
 
-Reminder: use cases are not dollars, and DoD withholds its inventory
-entries — so the two sources are biased in opposite directions. The
-gap between them is the finding, not a corrected 'true' number.
+Attribution — real growth vs definitional inflation:
+  Real growth   : awards CAGR FY2016->FY2025 = +25.7% per year (fixed definition)
+  Definitional  : 19% of the level is lexicon width, not growth
+
+Agencies — keyword 29, inventory 30, overlap 12
+
+Reminder: use cases are not dollars, DoD withholds its inventory, and
+Award Amount is an obligation proxy. The range and the splits are the finding.

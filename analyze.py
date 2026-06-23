@@ -39,6 +39,22 @@ def fiscal_year(date_str):
     y, mo = int(m.group(1)), int(m.group(2))
     return y + 1 if mo >= 10 else y
 
+def fy_bounds_from_time_period(periods):
+    """Derive inclusive FY bounds from config.TIME_PERIOD entries."""
+    if not periods:
+        return None, None
+    start_fys, end_fys = [], []
+    for p in periods:
+        start_fy = fiscal_year((p or {}).get("start_date"))
+        end_fy = fiscal_year((p or {}).get("end_date"))
+        if start_fy is not None:
+            start_fys.append(start_fy)
+        if end_fy is not None:
+            end_fys.append(end_fy)
+    if not start_fys or not end_fys:
+        return None, None
+    return min(start_fys), max(end_fys)
+
 def to_amount(s):
     if s is None: return 0.0
     s = str(s).replace("$", "").replace(",", "").strip()
@@ -87,6 +103,9 @@ def main():
     os.makedirs("outputs", exist_ok=True)
     os.makedirs("site", exist_ok=True)
     awards, have_dates, have_amts = load_awards()
+    fy_start, fy_end = fy_bounds_from_time_period(config.TIME_PERIOD)
+    if fy_start is not None and fy_end is not None:
+        awards = [a for a in awards if a["_fy"] is not None and fy_start <= a["_fy"] <= fy_end]
     all_rows, contracted = load_inventory_contracted()
 
     full_count = len(awards)
