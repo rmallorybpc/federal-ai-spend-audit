@@ -24,6 +24,30 @@
   min-width: 0;
 }
 
+.tmg-page-links {
+  display: flex;
+  gap: 4px;
+}
+
+.tmg-page-links a {
+  padding: 6px 12px;
+  border-radius: var(--tmg-nav-radius);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--tmg-charcoal);
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.tmg-page-links a:hover {
+  background: rgba(132, 169, 140, 0.12);
+}
+
+.tmg-page-links a[aria-current="page"] {
+  background: rgba(132, 169, 140, 0.15);
+  color: var(--tmg-sage-hover);
+}
+
 .fa-wrap {
   max-width: 900px;
   margin: 0 auto;
