@@ -24,7 +24,14 @@
   min-width: 0;
 }
 
-.fa-navlinks a {
+.fa-page-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.fa-page-links a {
   font-size: 13px;
   font-weight: 500;
   color: var(--tmg-charcoal);
@@ -32,11 +39,11 @@
   white-space: nowrap;
 }
 
-.fa-navlinks a:hover {
+.fa-page-links a:hover {
   color: var(--tmg-sage-hover);
 }
 
-.fa-navlinks a[aria-current="page"] {
+.fa-page-links a[aria-current="page"] {
   color: var(--tmg-sage);
   border-bottom: 2px solid var(--tmg-sage);
   padding-bottom: 2px;
@@ -200,14 +207,18 @@ a.fa-btn-ghost:hover {
   .fa-navlinks {
     width: 100%;
     justify-content: space-between;
+    gap: 12px;
+  }
+
+  .fa-page-links {
     flex-wrap: wrap;
     gap: 10px 14px;
   }
 }
 
 @media (max-width: 600px) {
-  .fa-navlinks {
-    gap: 10px;
+  .fa-page-links {
+    gap: 8px 12px;
   }
 
   .fa-wrap {
